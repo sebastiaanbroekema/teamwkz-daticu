@@ -1,0 +1,138 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Using TensorFlow backend.\n"
+     ]
+    }
+   ],
+   "source": [
+    "import keras\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import tensorflow\n",
+    "import elephas \n",
+    "\n",
+    "\n",
+    "from keras.models import Sequential\n",
+    "from keras.layers import Dense, Input,LSTM,GaussianNoise,Dropout\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# shape variables\n",
+    "# shape in shape (size columns,) (to indicate only one row)\n",
+    "# place holders now\n",
+    "shape_fixed = (5,)\n",
+    "shape_variable = (6,)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'shape_fixed' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-2-44122bce10cf>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m     10\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     11\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 12\u001b[0;31m \u001b[0mfixed_input\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mInput\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mshape\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mshape_fixed\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mname\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m'fixed_input'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     13\u001b[0m \u001b[0mgauss_fixed\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mGaussianNoise\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;36m0.25\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfixed_input\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     14\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mNameError\u001b[0m: name 'shape_fixed' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "\n",
+    "#define model\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "# define inputs\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "fixed_input = Input(shape=shape_fixed, name='fixed_input')\n",
+    "gauss_fixed = GaussianNoise(0.25)(fixed_input)\n",
+    "\n",
+    "\n",
+    "variable_input = Input(shape=shape_variable, name='variable_input')\n",
+    "gauss_variable = GaussianNoise(0.25)(variable_input)\n",
+    "\n",
+    "# define 1ste hidden layer\n",
+    "hidden_one_fixed = Dense(1500, activation='relu')(gauss_fixed)\n",
+    "dropout_one = Dropout(0.5)(gauss_fixed)\n",
+    "\n",
+    "# dropout integrated into LSTM \n",
+    "hidden_one_variable = LSTM(1500, activation='tanh',dropout=0.5,\n",
+    "                           recurrent_dropout=0.25,stateful=True)(gauss_variable)\n",
+    "\n",
+    "# define second hidden layer (merge) aka the tricky part\n",
+    "merged = keras.layers.concatenate([dropout_one, hidden_one_variable], axis=-1)\n",
+    "\n",
+    "hidden_two = LSTM(1500, activation='tanh', dropout=0.5,\n",
+    "                recurrent_dropout=0.25,stateful=True)(merged)\n",
+    "\n",
+    "# define 1ste output\n",
+    "regression_output\n",
+    "\n",
+    "\n",
+    "# third hidden\n",
+    "hidden_three\n",
+    "\n",
+    "# final output\n",
+    "classify_output\n",
+    "\n",
+    "# compile model\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "LSTM(units, activation='tanh', recurrent_activation='hard_sigmoid', use_bias=True, dropout=0.5, recurrent_dropout=0.25,\n",
+    "                  implementation=1, stateful=True)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "PySpark (Spark 2.1.1)",
+   "language": "python",
+   "name": "pyspark-2.1.1"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.5.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
